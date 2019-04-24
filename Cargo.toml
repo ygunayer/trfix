@@ -1,0 +1,8 @@
+[package]
+name = "trfix"
+version = "0.1.0"
+authors = ["Yalin Gunayer <yalin.gunayer@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+glob = "0.3.0"
