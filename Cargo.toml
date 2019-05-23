@@ -5,4 +5,6 @@ authors = ["Yalin Gunayer <yalin.gunayer@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+failure = "0.1.5"
 glob = "0.3.0"
+walkdir = "2.2.7"
