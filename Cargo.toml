@@ -11,3 +11,6 @@ encoding = "0.2.33"
 walkdir = "2.2.7"
 tree_magic = "0.2.1"
 encoding_rs = "0.8.17"
+
+[target.'cfg(not(windows))'.dependencies]
+isatty = "0.1"

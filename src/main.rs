@@ -7,6 +7,19 @@ use std::io::{Read, Write, BufReader, BufWriter};
 
 use encoding_rs::{Encoding, DecoderResult};
 
+#[cfg(not(windows))]
+use isatty::{stdin_isatty};
+
+#[cfg(not(windows))]
+fn is_stdin() -> bool {
+    stdin_isatty()
+}
+
+#[cfg(windows)]
+fn is_stdin() -> bool {
+    false
+}
+
 fn fix_string(input: &String) -> String {
     input.replace("ý", "ı")
         .replace("þ", "ş")
@@ -117,10 +130,27 @@ fn process_files(settings: &Settings) -> Result<()> {
         })
 }
 
+fn process_stdin(_settings: &Settings) -> Result<()> {
+    let stdin = io::stdin();
+
+    let mut buf = String::new();
+    stdin.lock().read_to_string(&mut buf)?;
+
+    let result = fix_string(&buf);
+    println!("{:?}", result);
+    Ok(())
+}
+
 fn main() {
     let settings = Settings::default();
 
-    let result = process_files(&settings);
+    let result: Result<()>;
+
+    if !is_stdin() {
+        result = process_stdin(&settings);
+    } else {
+        result = process_files(&settings);
+    }
 
     match result {
         Ok(()) => println!("Successfully finished processing files"),
