@@ -1,8 +1,6 @@
 # trfix
 Altyazı dosyalarındaki `þ`, `Ð` gibi bozuk Türkçe karakterleri doğrularıyla düzelten program.
 
-> **Not:** Mutlaka [Uyarılar](#uyarılar) bölümünü okuyun!
-
 ## Ne, Neden, Nasıl
 Günümüzde neredeyse tüm uygulamalar unicode encoding kullansalar da geçmişte birçok uygulama metin dosyalarını açar veya kaydederken çalıştıkları işletim sistemlerindeki varsayılan dile uygun bir encoding kullanmaktaydı. Özellikle Türkçe gibi Latin dillerinde olmayan karakterleri içeren bir dil kullanan bilgisayarlarda hazırlanan dosyalar bir başka dil kullanan bir bilgisayara taşındıklarında bozuk görünebilmekteydi.
 
