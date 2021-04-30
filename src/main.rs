@@ -68,7 +68,7 @@ fn process_file(file_path: &PathBuf, settings: &Settings) -> Result<()> {
     }
 
     let mime_type = tree_magic::from_u8(contents.as_ref());
-    if "text/plain" != mime_type {
+    if ("text/plain" != mime_type) && ("application/x-subrip" != mime_type) {
         return Err(Error::unsupported_mime_type(mime_type.as_ref()))
     }
 
@@ -86,18 +86,23 @@ fn process_file(file_path: &PathBuf, settings: &Settings) -> Result<()> {
     match decode_result {
         DecoderResult::InputEmpty => {
             let output_str = fix_string(&input_str);
-            let backup_file_path = file_path.push_extension(".bak");
+            if &output_str == input_str {
+                println!("Content has not changed, ignoring file {:?}", file_path)
+            } else {
+                let backup_file_path = file_path.push_extension(".bak");
 
-            fs::copy(file_path, &backup_file_path)?;
+                fs::copy(file_path, &backup_file_path)?;
 
-            let output_file = fs::OpenOptions::new().create(true).write(true).truncate(true).open(file_path)?;
-            let mut writer = BufWriter::new(output_file);
-            writer.write_all(output_str.as_bytes())?;
+                let output_file = fs::OpenOptions::new().create(true).write(true).truncate(true).open(file_path)?;
+                let mut writer = BufWriter::new(output_file);
+                writer.write_all(output_str.as_bytes())?;
 
-            if !output_settings.keep_backups {
-                std::fs::remove_file(&backup_file_path)?;
+                if !output_settings.keep_backups {
+                    std::fs::remove_file(&backup_file_path)?;
+                }
+                println!("Successfully fixed file {:?}", file_path);
             }
-            println!("Successfully fixed file {:?}", file_path);
+
 
             Ok(())
         },
