@@ -124,7 +124,7 @@ impl InputSettings {
 impl OutputSettings {
     pub fn default() -> OutputSettings {
         OutputSettings {
-            keep_backups: true
+            keep_backups: false
         }
     }
 }

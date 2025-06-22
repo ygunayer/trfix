@@ -68,7 +68,7 @@ fn process_file(file_path: &PathBuf, settings: &Settings) -> Result<()> {
     }
 
     let mime_type = tree_magic::from_u8(contents.as_ref());
-    if "text/plain" != mime_type {
+    if "text/plain" != mime_type && "application/x-subrip" != mime_type {
         return Err(Error::unsupported_mime_type(mime_type.as_ref()))
     }
 
